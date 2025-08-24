@@ -8,6 +8,7 @@ export class FocusUI {
         this.queryDomElements();
         this.setUpEventListeners();
         this.session = currentSession;
+        this.populateSessions();
     }
 
     queryDomElements() {
@@ -21,8 +22,10 @@ export class FocusUI {
     setUpEventListeners() {
         this.domObj.startButton.addEventListener("click", () => {
             if(this.sessionState === "ended") {
+                this.populatePastSessions(this.session.getCurrentSession());
                 this.session.incrementSession();
             }
+            document.getElementById("session-" + this.session.getCurrentSession().sessionNumber).remove();
             this.sessionState = "running";
             this.updateText(this.domObj.sessionHeader, this.session.getCurrentSession().text);
             this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
@@ -41,6 +44,7 @@ export class FocusUI {
     startInterval(session) {
         return setInterval(() => {
             session.duration--;
+            session.totalTime++;
             this.domObj.timerDisplay.textContent = this.formatTime(session.duration);
             if(session.duration <= 0) {
                 this.sessionState = "ended";
@@ -58,6 +62,42 @@ export class FocusUI {
 
     updateText(ele, text) {
         ele.textContent = text;
+    }
+
+    populateSessions() {
+        this.session.sessions.forEach((session, index) => {
+            const sessionRow = document.createElement("tr");
+            const sessionNumber = document.createElement("td");
+            const sessionTextEl = document.createElement("td");
+            const sessionDurationEl = document.createElement("td");
+            sessionNumber.textContent = session.sessionNumber;
+            sessionTextEl.textContent = session.text;
+            sessionDurationEl.textContent = this.formatTime(session.duration);
+            sessionRow.id = `session-${index+1}`;
+            sessionRow.appendChild(sessionNumber);
+            sessionRow.appendChild(sessionTextEl);
+            sessionRow.appendChild(sessionDurationEl);
+            document.getElementById("upcoming-sessions").appendChild(sessionRow);
+        });
+        // Future feature: dynamically create session elements in the UI
+    }
+
+    populatePastSessions(session) {
+        const sessionRow = document.createElement("tr");
+        const sessionNumber = document.createElement("td");
+        const sessionTextEl = document.createElement("td");
+        const sessionDurationEl = document.createElement("td");
+        const sessionTotalTimeEl = document.createElement("td");
+        sessionRow.id = `past-session-${session.sessionNumber}`;
+        sessionNumber.textContent = session.sessionNumber;
+        sessionTextEl.textContent = session.text;
+        sessionDurationEl.textContent = this.formatTime(session.duration);
+        sessionTotalTimeEl.textContent = this.formatTime(session.totalTime);
+        sessionRow.appendChild(sessionNumber);
+        sessionRow.appendChild(sessionTextEl);
+        sessionRow.appendChild(sessionDurationEl);
+        sessionRow.appendChild(sessionTotalTimeEl);
+        document.getElementById("past-sessions").appendChild(sessionRow);
     }
 }
 

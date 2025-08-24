@@ -5,13 +5,32 @@ export class FocusTimer {
     }
 
     createSessions(intervals) {
+        let sessionNumber = 1;
         for (let i = 0; i < intervals; i++) {
-            this.sessions.push(defaultWorkSession);
+            const worksession = {
+                sessionNumber: sessionNumber,
+                totalTime: 0,
+                ...defaultWorkSession
+            };
+            this.sessions.push(worksession);
+            sessionNumber++;
             if (i < intervals - 1 && !intervals % 4 === 0) {
-                this.sessions.push(defaultShortBreak);
+                const shortBreak = {
+                    sessionNumber: sessionNumber,
+                    totalTime: 0,
+                    ...defaultShortBreak
+                };
+                this.sessions.push(shortBreak);
+                sessionNumber++;
             }
             if(i === intervals - 1 && intervals % 4 === 0) {
-                this.sessions.push(defaultLongBreak);
+                const longBreak = {
+                    sessionNumber: sessionNumber,
+                    totalTime: 0,
+                    ...defaultLongBreak
+                };
+                this.sessions.push(longBreak);
+                sessionNumber++;
             }
         }
     }

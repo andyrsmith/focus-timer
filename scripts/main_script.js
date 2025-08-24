@@ -1,5 +1,5 @@
 import { FocusTimer } from './focus_session.js';
-import { FocusUI } from '../focus-ui.js';
+import { FocusUI } from './focus-ui.js';
 
 
 class FocusTimerApp {
