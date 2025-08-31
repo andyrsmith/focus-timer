@@ -17,6 +17,7 @@ export class FocusUI {
         this.domObj.timerDisplay = document.getElementById("timer");
         this.domObj.startButton = document.getElementById("start-button"); 
         this.domObj.stopButton = document.getElementById("stop-button");
+        this.domObj.skipButton = document.getElementById("skip-button"); 
     }
 
     setUpEventListeners() {
@@ -25,6 +26,8 @@ export class FocusUI {
                 this.populatePastSessions(this.session.getCurrentSession());
                 this.session.incrementSession();
             }
+
+            this.domObj.skipButton.disabled = false;
             document.getElementById("session-" + this.session.getCurrentSession().sessionNumber).remove();
             this.sessionState = "running";
             this.updateText(this.domObj.sessionHeader, this.session.getCurrentSession().text);
@@ -39,6 +42,15 @@ export class FocusUI {
             this.domObj.startButton.disabled = false;
             this.domObj.sessionHeader.textContent = "Timer Stopped";
         });
+
+        this.domObj.skipButton.addEventListener("click", () => {
+            clearInterval(this.currentInterval);
+            this.sessionState = "ended";
+            this.domObj.skipButton.disabled = true;
+            this.domObj.startButton.disabled = false;
+            this.updateText(this.domObj.sessionHeader, "Session Skipped");
+        });
+
     };
 
     startInterval(session) {
