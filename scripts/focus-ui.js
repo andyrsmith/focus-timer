@@ -3,12 +3,13 @@ export class FocusUI {
     session;
     currentInterval;
     sessionState = "initialized";
+    app;
 
-    constructor(currentSession) {
+    constructor(session, app) {
         this.queryDomElements();
         this.setUpEventListeners();
-        this.session = currentSession;
-        this.populateSessions();
+        this.session = session;
+        this.app = app;
     }
 
     queryDomElements() {
@@ -18,6 +19,7 @@ export class FocusUI {
         this.domObj.startButton = document.getElementById("start-button"); 
         this.domObj.stopButton = document.getElementById("stop-button");
         this.domObj.skipButton = document.getElementById("skip-button"); 
+        this.domObj.settingsForm = document.getElementById("settings-form");
     }
 
     setUpEventListeners() {
@@ -49,6 +51,28 @@ export class FocusUI {
             this.domObj.skipButton.disabled = true;
             this.domObj.startButton.disabled = false;
             this.updateText(this.domObj.sessionHeader, "Session Skipped");
+        });
+
+        this.domObj.settingsForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const formData = new FormData(this.domObj.settingsForm);
+            console.log(formData);
+
+            const workDuration = parseInt(formData.get("work-duration")) * 60;
+            const shortBreakDuration = parseInt(formData.get("break-duration")) * 60;
+            const longBreakDuration = parseInt(formData.get("long-break-duration")) * 60;
+            const intervals = parseInt(formData.get("sessions-before-long-break"));
+
+            const params = {
+                workDuration: workDuration,
+                shortBreakDuration: shortBreakDuration,
+                longBreakDuration: longBreakDuration,
+                intervals: intervals
+            };
+
+            this.session.createSessions(params);
+
+            this.populateSessions();
         });
 
     };

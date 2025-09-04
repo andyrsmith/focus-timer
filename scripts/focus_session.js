@@ -4,35 +4,41 @@ export class FocusTimer {
         this.sessions = [];
     }
 
-    createSessions(intervals) {
+    createSessions(params) {
+        console.log('in createSessions with params:', params);
         let sessionNumber = 1;
-        for (let i = 0; i < intervals; i++) {
+        for (let i = 0; i < params.intervals; i++) {
             const worksession = {
                 sessionNumber: sessionNumber,
                 totalTime: 0,
-                ...defaultWorkSession
+                duration: params.workDuration,
+                text: defaultWorkSession.text
             };
             this.sessions.push(worksession);
             sessionNumber++;
-            if (i < intervals - 1 && !intervals % 4 === 0) {
+            if (i < params.intervals - 1 && !params.intervals % 4 === 0) {
                 const shortBreak = {
                     sessionNumber: sessionNumber,
                     totalTime: 0,
-                    ...defaultShortBreak
+                    duration: params.shortBreakDuration,
+                    text: defaultShortBreak.text
                 };
                 this.sessions.push(shortBreak);
                 sessionNumber++;
             }
-            if(i === intervals - 1 && intervals % 4 === 0) {
+            if(i === params.intervals - 1 && params.intervals % 4 === 0) {
                 const longBreak = {
                     sessionNumber: sessionNumber,
                     totalTime: 0,
-                    ...defaultLongBreak
+                    duration: params.longBreakDuration,
+                    text: defaultLongBreak.text
                 };
                 this.sessions.push(longBreak);
                 sessionNumber++;
             }
         }
+
+        console.log('Created sessions:', this.sessions);
     }
 
     getCurrentSession() {
