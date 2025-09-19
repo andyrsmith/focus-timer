@@ -5,7 +5,11 @@ export class FocusTimer {
     }
 
     createSessions(params) {
-        console.log('in createSessions with params:', params);
+        if(this.sessions.length > 0) {
+            this.focusSession = 0;
+            this.sessions = [];
+        }
+
         let sessionNumber = 1;
         for (let i = 0; i < params.intervals; i++) {
             const worksession = {
@@ -37,8 +41,6 @@ export class FocusTimer {
                 sessionNumber++;
             }
         }
-
-        console.log('Created sessions:', this.sessions);
     }
 
     getCurrentSession() {

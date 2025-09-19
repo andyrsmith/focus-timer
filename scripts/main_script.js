@@ -7,7 +7,7 @@ class FocusTimerApp {
     ui;
     constructor() {
         this.session = new FocusTimer();
-        this.ui = new FocusUI(this.session);
+        this.ui = new FocusUI(this.session, this);
     }
 
     getSessions(params) {

@@ -56,8 +56,6 @@ export class FocusUI {
         this.domObj.settingsForm.addEventListener("submit", (e) => {
             e.preventDefault();
             const formData = new FormData(this.domObj.settingsForm);
-            console.log(formData);
-
             const workDuration = parseInt(formData.get("work-duration")) * 60;
             const shortBreakDuration = parseInt(formData.get("break-duration")) * 60;
             const longBreakDuration = parseInt(formData.get("long-break-duration")) * 60;
@@ -71,6 +69,9 @@ export class FocusUI {
             };
 
             this.session.createSessions(params);
+
+            const upcomingSessions = document.getElementById("upcoming-sessions"); 
+            upcomingSessions.querySelectorAll("tr").forEach(n => n.remove());
 
             this.populateSessions();
         });
