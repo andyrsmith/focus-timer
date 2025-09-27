@@ -20,6 +20,7 @@ export class FocusUI {
         this.domObj.stopButton = document.getElementById("stop-button");
         this.domObj.skipButton = document.getElementById("skip-button"); 
         this.domObj.settingsForm = document.getElementById("settings-form");
+        this.domObj.showFormButton = document.getElementById("show-form");
     }
 
     setUpEventListeners() {
@@ -74,8 +75,19 @@ export class FocusUI {
             upcomingSessions.querySelectorAll("tr").forEach(n => n.remove());
 
             this.populateSessions();
+            document.getElementById("settings-section").style.display = "none";
+            document.getElementById("focus-app").style.display = "block";
         });
 
+        this.domObj.showFormButton.addEventListener("click", () => {
+            const settingsSection = document.getElementById("settings-section");
+            if(settingsSection.style.display === "none" || settingsSection.style.display === "") {
+                settingsSection.style.display = "block";
+                document.getElementById("focus-app").style.display = "none";
+            } else {
+                settingsSection.style.display = "none";
+            }
+        });
     };
 
     startInterval(session) {
