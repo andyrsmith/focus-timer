@@ -36,7 +36,7 @@ export class FocusUI {
             this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
             this.updateText(this.domObj.timerDisplay, this.session.formatTime(this.session.getCurrentSession().duration));
             this.domObj.startButton.style.display = "none";
-            document.getElementById("resume-button").style.display = "block";
+            document.getElementById("resume-button").style.display = "inline";
             document.getElementById("resume-button").addEventListener("click", () => {
                 this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
                 this.currentInterval = this.startInterval(this.session.getCurrentSession());
@@ -109,11 +109,11 @@ export class FocusUI {
                 this.sessionState = "ended";
                 clearInterval(this.currentInterval);
                 document.getElementById("timer-controls").style.display = "none";
-                document.getElementById("timer-next").style.display = "block";
+                document.getElementById("timer-next").style.display = "inline";
                 document.getElementById("start-next-session").addEventListener("click", () => {
                     document.getElementById("timer-controls").style.display = "block";
                     document.getElementById("timer-next").style.display = "none";
-                    this.domObj.startButton.style.display = "block";
+                    this.domObj.startButton.style.display = "inline";
                     document.getElementById("resume-button").style.display = "none";
                     this.resumeTimer();
                 });
@@ -148,7 +148,6 @@ export class FocusUI {
             sessionRow.appendChild(sessionDurationEl);
             document.getElementById("upcoming-sessions").appendChild(sessionRow);
         });
-        // Future feature: dynamically create session elements in the UI
     }
 
     populatePastSessions(session) {
