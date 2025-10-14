@@ -85,6 +85,15 @@ form button:hover {
     background-color: #0056b3;
 }
 
+#timer-next {
+    display: none;
+    margin-top: 20px;
+}
+
+#resume-button {
+    display: none;
+}
+
 /* Tables */
 table {
     width: 100%;

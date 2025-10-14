@@ -22,10 +22,9 @@ export class FocusUI {
         this.domObj.settingsForm = document.getElementById("settings-form");
         this.domObj.showFormButton = document.getElementById("show-form");
     }
-
-    setUpEventListeners() {
-        this.domObj.startButton.addEventListener("click", () => {
-            if(this.sessionState === "ended") {
+    //TODO: rename to startTimer
+    resumeTimer() {
+        if(this.sessionState === "ended") {
                 this.populatePastSessions(this.session.getCurrentSession());
                 this.session.incrementSession();
             }
@@ -36,8 +35,19 @@ export class FocusUI {
             this.updateText(this.domObj.sessionHeader, this.session.getCurrentSession().text);
             this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
             this.updateText(this.domObj.timerDisplay, this.session.formatTime(this.session.getCurrentSession().duration));
-            this.domObj.startButton.disabled = true;
+            this.domObj.startButton.style.display = "none";
+            document.getElementById("resume-button").style.display = "block";
+            document.getElementById("resume-button").addEventListener("click", () => {
+                this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
+                this.currentInterval = this.startInterval(this.session.getCurrentSession());
+            });
             this.currentInterval = this.startInterval(this.session.getCurrentSession());
+
+    }
+
+    setUpEventListeners() {
+        this.domObj.startButton.addEventListener("click", () => {
+            this.resumeTimer();
         });
 
         this.domObj.stopButton.addEventListener("click", () => {
@@ -98,6 +108,16 @@ export class FocusUI {
             if(session.duration <= 0) {
                 this.sessionState = "ended";
                 clearInterval(this.currentInterval);
+                document.getElementById("timer-controls").style.display = "none";
+                document.getElementById("timer-next").style.display = "block";
+                document.getElementById("start-next-session").addEventListener("click", () => {
+                    document.getElementById("timer-controls").style.display = "block";
+                    document.getElementById("timer-next").style.display = "none";
+                    this.domObj.startButton.style.display = "block";
+                    document.getElementById("resume-button").style.display = "none";
+                    this.resumeTimer();
+                });
+
                 this.domObj.startButton.disabled = false;
             }
         }, 1000);
