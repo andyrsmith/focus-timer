@@ -21,6 +21,7 @@ export class FocusUI {
         this.domObj.skipButton = document.getElementById("skip-button"); 
         this.domObj.settingsForm = document.getElementById("settings-form");
         this.domObj.showFormButton = document.getElementById("show-form");
+        this.domObj.resumeButton = document.getElementById("resume-button");
     }
     //TODO: rename to startTimer
     resumeTimer() {
@@ -36,8 +37,11 @@ export class FocusUI {
             this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
             this.updateText(this.domObj.timerDisplay, this.session.formatTime(this.session.getCurrentSession().duration));
             this.domObj.startButton.style.display = "none";
-            document.getElementById("resume-button").style.display = "inline";
+            //TODO: add to DOMObjs
+            //document.getElementById("resume-button").style.display = "inline";
             document.getElementById("resume-button").addEventListener("click", () => {
+                this.domObj.resumeButton.style.display = 'none';
+                this.domObj.stopButton.style.display = 'inline';
                 this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
                 this.currentInterval = this.startInterval(this.session.getCurrentSession());
             });
@@ -47,12 +51,16 @@ export class FocusUI {
 
     setUpEventListeners() {
         this.domObj.startButton.addEventListener("click", () => {
+            this.domObj.startButton.style.display = 'none';
+            this.domObj.resumeButton.style.display = 'none';
+            this.domObj.stopButton.style.display = 'inline';
             this.resumeTimer();
         });
 
         this.domObj.stopButton.addEventListener("click", () => {
             clearInterval(this.currentInterval);
-            this.domObj.startButton.disabled = false;
+            this.domObj.resumeButton.style.display = 'inline';
+            this.domObj.stopButton.style.display = 'none';
             this.domObj.sessionHeader.textContent = "Timer Stopped";
         });
 
@@ -154,16 +162,13 @@ export class FocusUI {
         const sessionRow = document.createElement("tr");
         const sessionNumber = document.createElement("td");
         const sessionTextEl = document.createElement("td");
-        const sessionDurationEl = document.createElement("td");
         const sessionTotalTimeEl = document.createElement("td");
         sessionRow.id = `past-session-${session.sessionNumber}`;
         sessionNumber.textContent = session.sessionNumber;
         sessionTextEl.textContent = session.text;
-        sessionDurationEl.textContent = this.formatTime(session.duration);
         sessionTotalTimeEl.textContent = this.formatTime(session.totalTime);
         sessionRow.appendChild(sessionNumber);
         sessionRow.appendChild(sessionTextEl);
-        sessionRow.appendChild(sessionDurationEl);
         sessionRow.appendChild(sessionTotalTimeEl);
         document.getElementById("past-sessions").appendChild(sessionRow);
     }

@@ -59,6 +59,10 @@ form button:hover {
     background-color: #45a049;
 }
 
+#stop-button {
+    display: none;
+}
+
 /* Timer Section */
 #focus-app {
     display: none;
