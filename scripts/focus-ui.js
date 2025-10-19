@@ -37,14 +37,6 @@ export class FocusUI {
             this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
             this.updateText(this.domObj.timerDisplay, this.session.formatTime(this.session.getCurrentSession().duration));
             this.domObj.startButton.style.display = "none";
-            //TODO: add to DOMObjs
-            //document.getElementById("resume-button").style.display = "inline";
-            document.getElementById("resume-button").addEventListener("click", () => {
-                this.domObj.resumeButton.style.display = 'none';
-                this.domObj.stopButton.style.display = 'inline';
-                this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
-                this.currentInterval = this.startInterval(this.session.getCurrentSession());
-            });
             this.currentInterval = this.startInterval(this.session.getCurrentSession());
 
     }
@@ -58,7 +50,8 @@ export class FocusUI {
         });
 
         this.domObj.stopButton.addEventListener("click", () => {
-            clearInterval(this.currentInterval);
+            //clearInterval(this.currentInterval);
+            this.sessionState = "stopped";
             this.domObj.resumeButton.style.display = 'inline';
             this.domObj.stopButton.style.display = 'none';
             this.domObj.sessionHeader.textContent = "Timer Stopped";
@@ -69,6 +62,10 @@ export class FocusUI {
             this.sessionState = "ended";
             this.domObj.skipButton.disabled = true;
             this.domObj.startButton.disabled = false;
+
+            document.getElementById("timer-controls").style.display = "none";
+            document.getElementById("timer-next").style.display = "inline";
+
             this.updateText(this.domObj.sessionHeader, "Session Skipped");
         });
 
@@ -110,10 +107,29 @@ export class FocusUI {
             }
             }
         });
+        document.getElementById("resume-button").addEventListener("click", () => {
+            this.domObj.resumeButton.style.display = 'none';
+            this.domObj.stopButton.style.display = 'inline';
+            this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
+            this.sessionState = "running";
+        });
+
+        document.getElementById("start-next-session").addEventListener("click", () => {
+            document.getElementById("timer-controls").style.display = "block";
+            document.getElementById("timer-next").style.display = "none";
+            this.domObj.startButton.style.display = "inline";
+            document.getElementById("resume-button").style.display = "none";
+            this.resumeTimer();
+        });
+
+
     };
 
     startInterval(session) {
         return setInterval(() => {
+            if(this.sessionState !== "running") {
+                return;
+            }
             session.duration--;
             session.totalTime++;
             this.domObj.timerDisplay.textContent = this.formatTime(session.duration);
@@ -124,13 +140,6 @@ export class FocusUI {
                 clearInterval(this.currentInterval);
                 document.getElementById("timer-controls").style.display = "none";
                 document.getElementById("timer-next").style.display = "inline";
-                document.getElementById("start-next-session").addEventListener("click", () => {
-                    document.getElementById("timer-controls").style.display = "block";
-                    document.getElementById("timer-next").style.display = "none";
-                    this.domObj.startButton.style.display = "inline";
-                    document.getElementById("resume-button").style.display = "none";
-                    this.resumeTimer();
-                });
 
                 this.domObj.startButton.disabled = false;
             }
