@@ -98,12 +98,16 @@ export class FocusUI {
         });
 
         this.domObj.showFormButton.addEventListener("click", () => {
+
+            const confirmResponse = confirm("Changing settings will reset the current session. Do you want to continue?");
+            if(confirmResponse) {
             const settingsSection = document.getElementById("settings-section");
             if(settingsSection.style.display === "none" || settingsSection.style.display === "") {
                 settingsSection.style.display = "block";
                 document.getElementById("focus-app").style.display = "none";
             } else {
                 settingsSection.style.display = "none";
+            }
             }
         });
     };
@@ -114,6 +118,8 @@ export class FocusUI {
             session.totalTime++;
             this.domObj.timerDisplay.textContent = this.formatTime(session.duration);
             if(session.duration <= 0) {
+                const audio = new Audio('assets/sd_0.wav');
+                audio.play();
                 this.sessionState = "ended";
                 clearInterval(this.currentInterval);
                 document.getElementById("timer-controls").style.display = "none";
