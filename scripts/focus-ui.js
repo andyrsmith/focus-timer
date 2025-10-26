@@ -25,11 +25,6 @@ export class FocusUI {
     }
     //TODO: rename to startTimer
     resumeTimer() {
-        if(this.sessionState === "ended") {
-                this.populatePastSessions(this.session.getCurrentSession());
-                this.session.incrementSession();
-            }
-
             this.domObj.skipButton.disabled = false;
             document.getElementById("session-" + this.session.getCurrentSession().sessionNumber).remove();
             this.sessionState = "running";
@@ -60,13 +55,19 @@ export class FocusUI {
         this.domObj.skipButton.addEventListener("click", () => {
             clearInterval(this.currentInterval);
             this.sessionState = "ended";
+            this.populatePastSessions(this.session.getCurrentSession());
+            this.session.incrementSession();
+
             this.domObj.skipButton.disabled = true;
             this.domObj.startButton.disabled = false;
-
+            if(this.session.isAllSessionsComplete()) {
+                this.updateText(this.domObj.sessionHeader, "All Sessions Completed!");
+            } else {
+                document.getElementById("timer-next").style.display = "inline";
+                this.updateText(this.domObj.sessionHeader, "Session Skipped");
+            }
             document.getElementById("timer-controls").style.display = "none";
-            document.getElementById("timer-next").style.display = "inline";
 
-            this.updateText(this.domObj.sessionHeader, "Session Skipped");
         });
 
         this.domObj.settingsForm.addEventListener("submit", (e) => {
@@ -137,9 +138,15 @@ export class FocusUI {
                 const audio = new Audio('assets/sd_0.wav');
                 audio.play();
                 this.sessionState = "ended";
+                this.populatePastSessions(this.session.getCurrentSession());
+                this.session.incrementSession();
                 clearInterval(this.currentInterval);
+                if(this.session.isAllSessionsComplete()) {
+                    this.updateText(this.domObj.sessionHeader, "All Sessions Completed!");
+                } else {
+                    document.getElementById("timer-next").style.display = "inline";
+                }
                 document.getElementById("timer-controls").style.display = "none";
-                document.getElementById("timer-next").style.display = "inline";
 
                 this.domObj.startButton.disabled = false;
             }

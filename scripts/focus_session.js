@@ -57,7 +57,7 @@ export class FocusTimer {
         if (this.focusSession < this.sessions.length - 1) {
             this.focusSession++;
         } else {
-            this.focusSession = 0; // Reset to the first session
+            this.focusSession = null; // Reset to the first session
         }
     }
 
@@ -67,6 +67,10 @@ export class FocusTimer {
 
     getCurrentTime() {
         return this.getCurrentSession().duration;
+    }
+
+    isAllSessionsComplete() {
+        return this.focusSession == null;
     }
 }
 
