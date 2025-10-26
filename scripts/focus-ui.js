@@ -45,7 +45,6 @@ export class FocusUI {
         });
 
         this.domObj.stopButton.addEventListener("click", () => {
-            //clearInterval(this.currentInterval);
             this.sessionState = "stopped";
             this.domObj.resumeButton.style.display = 'inline';
             this.domObj.stopButton.style.display = 'none';
@@ -76,7 +75,8 @@ export class FocusUI {
             const workDuration = parseInt(formData.get("work-duration")) * 60;
             const shortBreakDuration = parseInt(formData.get("break-duration")) * 60;
             const longBreakDuration = parseInt(formData.get("long-break-duration")) * 60;
-            const intervals = parseInt(formData.get("sessions-before-long-break"));
+            //just pass 4 for now
+            const intervals = 4;
 
             const params = {
                 workDuration: workDuration,
@@ -93,6 +93,9 @@ export class FocusUI {
             this.populateSessions();
             document.getElementById("settings-section").style.display = "none";
             document.getElementById("focus-app").style.display = "block";
+            document.getElementById("timer-controls").style.display = "block";
+            this.domObj.stopButton.style.display = "none";
+            this.domObj.startButton.style.display = "inline";
         });
 
         this.domObj.showFormButton.addEventListener("click", () => {
