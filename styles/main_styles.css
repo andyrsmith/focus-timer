@@ -63,6 +63,10 @@ form button:hover {
     display: none;
 }
 
+button#show-form {
+    display: block;
+    margin: 0.5rem auto !important;
+}
 /* Timer Section */
 #focus-app {
     display: none;
