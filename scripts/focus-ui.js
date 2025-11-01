@@ -99,16 +99,20 @@ export class FocusUI {
         });
 
         this.domObj.showFormButton.addEventListener("click", () => {
-
+    
             const confirmResponse = confirm("Changing settings will reset the current session. Do you want to continue?");
             if(confirmResponse) {
-            const settingsSection = document.getElementById("settings-section");
-            if(settingsSection.style.display === "none" || settingsSection.style.display === "") {
-                settingsSection.style.display = "block";
-                document.getElementById("focus-app").style.display = "none";
-            } else {
-                settingsSection.style.display = "none";
-            }
+                this.domObj.timerDisplay.textContent = "--:--";
+                this.updateText(this.domObj.sessionHeader, "No Session Running");
+                document.title = "Focus Timer";
+                clearInterval(this.currentInterval);
+                const settingsSection = document.getElementById("settings-section");
+                if(settingsSection.style.display === "none" || settingsSection.style.display === "") {
+                    settingsSection.style.display = "block";
+                    document.getElementById("focus-app").style.display = "none";
+                } else {
+                    settingsSection.style.display = "none";
+                }
             }
         });
         document.getElementById("resume-button").addEventListener("click", () => {
@@ -119,6 +123,7 @@ export class FocusUI {
         });
 
         document.getElementById("start-next-session").addEventListener("click", () => {
+            document.title = "Focus Timer";
             document.getElementById("timer-controls").style.display = "block";
             document.getElementById("timer-next").style.display = "none";
             this.domObj.startButton.style.display = "inline";
@@ -138,6 +143,7 @@ export class FocusUI {
             session.totalTime++;
             this.domObj.timerDisplay.textContent = this.formatTime(session.duration);
             if(session.duration <= 0) {
+                document.title = "Timer Complete!";
                 const audio = new Audio('assets/sd_0.wav');
                 audio.play();
                 this.sessionState = "ended";
