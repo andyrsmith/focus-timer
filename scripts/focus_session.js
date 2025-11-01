@@ -75,8 +75,8 @@ export class FocusTimer {
 }
 
 
-const defaultShortBreak = { text: "Short Break", duration: 5*60 };
+const defaultShortBreak = { text: "Break", duration: 5*60 };
 const defaultLongBreak = { text: "Long Break", duration: 15*60 };
-const defaultWorkSession = { text: "Work Session", duration: 1*60 };
+const defaultWorkSession = { text: "Work", duration: 1*60 };
 
 
