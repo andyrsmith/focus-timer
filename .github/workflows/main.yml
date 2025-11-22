@@ -15,12 +15,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Dist directory
+        run: ./deploy.sh
+
       - name: Upload files to Hostinger
         # This composite action must run in the same build job to access the build directory
         uses: mradilla/hostinger-deploy@v1
         with:
           domain: pomo-focus.com    # Replace with your Hostinger domain
-          source-path: ./     # Replace with your build directory (e.g., out, dist, build)
+          source-path: dist     # Replace with your build directory (e.g., out, dist, build)
           host: ${{ secrets.HOSTINGER_HOST }}
           port: ${{ secrets.HOSTINGER_PORT }}
           username: ${{ secrets.HOSTINGER_USERNAME }}
