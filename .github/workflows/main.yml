@@ -20,7 +20,7 @@ jobs:
         uses: mradilla/hostinger-deploy@v1
         with:
           domain: pomo-focus.com    # Replace with your Hostinger domain
-          source-path: ''     # Replace with your build directory (e.g., out, dist, build)
+          source-path: ./     # Replace with your build directory (e.g., out, dist, build)
           host: ${{ secrets.HOSTINGER_HOST }}
           port: ${{ secrets.HOSTINGER_PORT }}
           username: ${{ secrets.HOSTINGER_USERNAME }}
