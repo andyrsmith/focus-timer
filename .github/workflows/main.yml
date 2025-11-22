@@ -21,7 +21,7 @@ jobs:
         with:
           domain: pomo-focus.com    # Replace with your Hostinger domain
           source-path: ''     # Replace with your build directory (e.g., out, dist, build)
-          host: ${{ secrets.HOSTINGER_HOST }}
-          port: ${{ secrets.HOSTINGER_PORT }}
-          username: ${{ secrets.HOSTINGER_USERNAME }}
-          password: ${{ secrets.HOSTINGER_PASSWORD }}
+          host: ${{ pomo-focus.HOSTINGER_HOST }}
+          port: ${{ pomo-focus.HOSTINGER_PORT }}
+          username: ${{ pomo-focus.HOSTINGER_USERNAME }}
+          password: ${{ pomo-focus.HOSTINGER_PASSWORD }}
