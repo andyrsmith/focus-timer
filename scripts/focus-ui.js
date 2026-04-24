@@ -10,6 +10,7 @@ export class FocusUI {
         this.setUpEventListeners();
         this.session = session;
         this.app = app;
+        this.updateText(this.domObj.timerDisplay, this.session.formatTime(this.session.getCurrentSession().duration));
     }
 
     queryDomElements() {
@@ -26,7 +27,6 @@ export class FocusUI {
     //TODO: rename to startTimer
     resumeTimer() {
             this.domObj.skipButton.disabled = false;
-            document.getElementById("session-" + this.session.getCurrentSession().sessionNumber).remove();
             this.sessionState = "running";
             this.updateText(this.domObj.sessionHeader, this.session.getCurrentSession().text);
             this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
@@ -87,10 +87,6 @@ export class FocusUI {
 
             this.session.createSessions(params);
 
-            const upcomingSessions = document.getElementById("upcoming-sessions"); 
-            upcomingSessions.querySelectorAll("tr").forEach(n => n.remove());
-
-            this.populateSessions();
             document.getElementById("settings-section").style.display = "none";
             document.getElementById("focus-app").style.display = "block";
             document.getElementById("timer-controls").style.display = "block";
@@ -170,23 +166,6 @@ export class FocusUI {
 
     updateText(ele, text) {
         ele.textContent = text;
-    }
-
-    populateSessions() {
-        this.session.sessions.forEach((session, index) => {
-            const sessionRow = document.createElement("tr");
-            const sessionNumber = document.createElement("td");
-            const sessionTextEl = document.createElement("td");
-            const sessionDurationEl = document.createElement("td");
-            sessionNumber.textContent = session.sessionNumber;
-            sessionTextEl.textContent = session.text;
-            sessionDurationEl.textContent = this.formatTime(session.duration);
-            sessionRow.id = `session-${index+1}`;
-            sessionRow.appendChild(sessionNumber);
-            sessionRow.appendChild(sessionTextEl);
-            sessionRow.appendChild(sessionDurationEl);
-            document.getElementById("upcoming-sessions").appendChild(sessionRow);
-        });
     }
 
     populatePastSessions(session) {

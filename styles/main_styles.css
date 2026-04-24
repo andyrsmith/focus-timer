@@ -28,6 +28,10 @@ main {
     padding: 20px;
 }
 
+#settings-section {
+    display: none;
+}
+
 /* Form Styles */
 form {
     margin-bottom: 20px;
@@ -69,7 +73,6 @@ button#show-form {
 }
 /* Timer Section */
 #focus-app {
-    display: none;
     text-align: center;
 }
 
@@ -125,4 +128,8 @@ footer {
     text-align: center;
     margin-top: 20px;
     color: #777;
+}
+
+#past-sessions-section {
+    display: none;
 }

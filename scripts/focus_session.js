@@ -1,7 +1,10 @@
 export class FocusTimer {
+    defaultShortBreak = { text: "Reflect", duration: 10*60, totalTime: 0 };
+    defaultWork = { text: "work", duration: 40*60, totalTime: 0 };
+
     constructor() {
         this.focusSession = 0;
-        this.sessions = [];
+        this.sessions = [this.defaultWork, this.defaultShortBreak, this.defaultWork, this.defaultShortBreak, this.defaultWork];
     }
 
     createSessions(params) {
