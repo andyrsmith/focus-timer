@@ -11,11 +11,13 @@ export class FocusUI {
         this.session = session;
         this.app = app;
         this.updateText(this.domObj.timerDisplay, this.session.formatTime(this.session.getCurrentSession().duration));
+        this.updateText(this.domObj.cycleText, `Cycle ${this.session.getCycleNumber()} of ${this.session.getTotalCycles()}`);
     }
 
     queryDomElements() {
         this.domObj = {};
         this.domObj.sessionHeader = document.getElementById("timer-text");
+        this.domObj.cycleText = document.getElementById("cycle-count");
         this.domObj.timerDisplay = document.getElementById("timer");
         this.domObj.startButton = document.getElementById("start-button"); 
         this.domObj.stopButton = document.getElementById("stop-button");
@@ -24,16 +26,16 @@ export class FocusUI {
         this.domObj.showFormButton = document.getElementById("show-form");
         this.domObj.resumeButton = document.getElementById("resume-button");
     }
-    //TODO: rename to startTimer
-    resumeTimer() {
-            this.domObj.skipButton.disabled = false;
-            this.sessionState = "running";
-            this.updateText(this.domObj.sessionHeader, this.session.getCurrentSession().text);
-            this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
-            this.updateText(this.domObj.timerDisplay, this.session.formatTime(this.session.getCurrentSession().duration));
-            this.domObj.startButton.style.display = "none";
-            this.currentInterval = this.startInterval(this.session.getCurrentSession());
 
+    resumeTimer() {
+        this.domObj.skipButton.disabled = false;
+        this.sessionState = "running";
+        this.updateText(this.domObj.sessionHeader, this.session.getCurrentSession().text);
+        this.updateText(this.domObj.cycleText, `Cycle ${this.session.getCycleNumber()} of ${this.session.getTotalCycles()}`);
+        this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
+        this.updateText(this.domObj.timerDisplay, this.session.formatTime(this.session.getCurrentSession().duration));
+        this.domObj.startButton.style.display = "none";
+        this.currentInterval = this.startInterval(this.session.getCurrentSession());
     }
 
     setUpEventListeners() {
@@ -74,18 +76,19 @@ export class FocusUI {
             const formData = new FormData(this.domObj.settingsForm);
             const workDuration = parseInt(formData.get("work-duration")) * 60;
             const shortBreakDuration = parseInt(formData.get("break-duration")) * 60;
-            const longBreakDuration = parseInt(formData.get("long-break-duration")) * 60;
-            //just pass 4 for now
-            const intervals = 4;
+            const intervals = parseInt(formData.get("cycles"));
 
             const params = {
                 workDuration: workDuration,
                 shortBreakDuration: shortBreakDuration,
-                longBreakDuration: longBreakDuration,
                 intervals: intervals
             };
 
             this.session.createSessions(params);
+
+            this.updateText(this.domObj.timerDisplay, this.session.formatTime(this.session.getCurrentSession().duration));
+            this.updateText(this.domObj.cycleText, `Cycle ${this.session.getCycleNumber()} of ${this.session.getTotalCycles()}`);
+            this.updateText(this.domObj.sessionHeader, this.session.getCurrentSession().text);
 
             document.getElementById("settings-section").style.display = "none";
             document.getElementById("focus-app").style.display = "block";
@@ -183,13 +186,4 @@ export class FocusUI {
         document.getElementById("past-sessions").appendChild(sessionRow);
     }
 }
-
-
-
-
-
-
-
-
-
 

@@ -1,10 +1,13 @@
 export class FocusTimer {
-    defaultShortBreak = { text: "Reflect", duration: 10*60, totalTime: 0 };
-    defaultWork = { text: "work", duration: 40*60, totalTime: 0 };
 
     constructor() {
+        this.sessions = [];
+        this.createSessions({
+            workDuration: 40*60,
+            shortBreakDuration: 10*60,
+            intervals: 3
+        });
         this.focusSession = 0;
-        this.sessions = [this.defaultWork, this.defaultShortBreak, this.defaultWork, this.defaultShortBreak, this.defaultWork];
     }
 
     createSessions(params) {
@@ -33,16 +36,21 @@ export class FocusTimer {
                 this.sessions.push(shortBreak);
                 sessionNumber++;
             }
-            if(i === params.intervals - 1 && params.intervals % 4 === 0) {
-                const longBreak = {
-                    sessionNumber: sessionNumber,
-                    totalTime: 0,
-                    duration: params.longBreakDuration,
-                    text: defaultLongBreak.text
-                };
-                this.sessions.push(longBreak);
-                sessionNumber++;
-            }
+        }
+    }
+
+    getTotalCycles() {
+        return Math.ceil(this.sessions.length/2);
+    }
+
+    getCycleNumber() {
+        if(this.focusSession == 0 || this.focusSession == 1) return 1;
+       
+
+        if(this.focusSession % 2 === 0) {
+            return Math.ceil(this.focusSession/2)+1;
+        } else {
+            return Math.ceil(this.focusSession/2);
         }
     }
 
@@ -79,7 +87,6 @@ export class FocusTimer {
 
 
 const defaultShortBreak = { text: "Reflect", duration: 5*60 };
-const defaultLongBreak = { text: "Long Break", duration: 15*60 };
 const defaultWorkSession = { text: "Work", duration: 1*60 };
 
 
