@@ -19,13 +19,13 @@
                 <h2>Create New Session</h2>
                 <form id="settings-form">
                     <label for="work-duration">Work Duration (minutes):</label>
-                    <input type="number" id="work-duration" name="work-duration" min="1" max="120" value="25">
+                    <input type="number" id="work-duration" name="work-duration" min="1" max="120" value="60">
                     <br>
                     <label for="break-duration">Break Duration (minutes):</label>
-                    <input type="number" id="break-duration" name="break-duration" min="1" max="60" value="5">
+                    <input type="number" id="break-duration" name="break-duration" min="1" max="60" value="10">
                     <br>
                     <label for="cycles">Number of Cycles:</label>
-                    <input type="number" id="cycles" name="cycles" min="1" value="1">
+                    <input type="number" id="cycles" name="cycles" min="1" value="3">
                     <br>
                     <button type="submit">Save Settings</button>
                 </form>
@@ -34,32 +34,35 @@
                 <h2 id="timer-text"></h2>
                 <p id="timer">--:--</p>
                 <p id="cycle-count"></p>
-                <div id="timer-controls">
+                <div id="timer-controls" class="button-controls">
                     <button id="start-button">Start</button>
                     <button id="resume-button">Resume</button>
-                    <button id="stop-button">Stop</button>
+                    <button id="stop-button">Pause</button>
                     <button id="skip-button">Skip</button>
                 </div>
-                <div id="timer-next">
+                <div id="timer-next" class="button-controls">
                     <button id="start-next-session">Start Next Timer</button>
                 </div>
-                <button id="show-form">Edit</button>
-        </section>
-        <section id="past-sessions-section">
-            <h2>Past Timers</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Type</th>
-                        <th>Total Time</th>
-                    </tr>
-                </thead>
-                <tbody id="past-sessions">
-                </tbody>
-            </table>
-        <section>
+                <div class="edit-button-container">
+                    <button id="show-form" class="edit-button">Create New Timer</button>
+                </div>
+            </section>
+            <section id="past-sessions-section">
+                <h2>Past Timers</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Type</th>
+                            <th>Total Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="past-sessions">
+                    </tbody>
+                </table>
+            <section>
         </main>
+
         <footer>
         </footer>
         <script src="scripts/main_script.js" type="module" defer></script>

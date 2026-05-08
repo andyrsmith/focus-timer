@@ -49,6 +49,7 @@ export class FocusUI {
         this.domObj.stopButton.addEventListener("click", () => {
             this.sessionState = "stopped";
             this.domObj.resumeButton.style.display = 'inline';
+            this.domObj.skipButton.style.display = 'inline';
             this.domObj.stopButton.style.display = 'none';
             this.domObj.sessionHeader.textContent = "Timer Stopped";
         });
@@ -117,6 +118,7 @@ export class FocusUI {
         document.getElementById("resume-button").addEventListener("click", () => {
             this.domObj.resumeButton.style.display = 'none';
             this.domObj.stopButton.style.display = 'inline';
+            this.domObj.skipButton.style.display = 'none';
             this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
             this.sessionState = "running";
         });
