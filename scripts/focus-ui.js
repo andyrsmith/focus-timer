@@ -11,6 +11,7 @@ export class FocusUI {
         this.session = session;
         this.app = app;
         this.updateText(this.domObj.timerDisplay, this.session.formatTime(this.session.getCurrentSession().duration));
+        this.updateText(this.domObj.sessionHeader, this.session.getCurrentSession().text);
         this.updateText(this.domObj.cycleText, `Cycle ${this.session.getCycleNumber()} of ${this.session.getTotalCycles()}`);
     }
 
