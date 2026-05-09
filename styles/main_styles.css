@@ -1,14 +1,18 @@
+:root {
+    --primary-color: #FAFAFA;
+}
+
 /* General Reset */
 body, h1, h2, p, table {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
-    color: #333;
+    color: var(--primary-color);
 }
 
 /* Body and Layout */
 body {
-    background-color: #f9f9f9;
+    background-color: #0D1117;
     line-height: 1.6;
     padding: 20px;
 }
@@ -17,15 +21,21 @@ header {
     text-align: center;
     color: white;
     padding: 10px 0;
+    margin-bottom: 5vh;
 }
 
 main {
-    max-width: 800px;
-    margin: 20px auto;
-    background: white;
-    border-radius: 8px;
+    max-width: 350px;
+    margin: 1vw auto;
+    background: rgb(21, 27, 35);
+    border-radius: 40px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    border: 15px solid #3d444d;
+}
+
+#settings-section {
+    display: none;
 }
 
 /* Form Styles */
@@ -63,13 +73,15 @@ form button:hover {
     display: none;
 }
 
+.edit-button-container {
+    max-width: 350px;
+    margin-bottom: 2vh;
+}
 button#show-form {
     display: block;
-    margin: 0.5rem auto !important;
 }
 /* Timer Section */
 #focus-app {
-    display: none;
     text-align: center;
 }
 
@@ -79,18 +91,27 @@ button#show-form {
     margin: 20px 0;
 }
 
-#focus-app button {
-    background-color: #007BFF;
+.button-controls button {
+    background-color: #3d444db3;
     color: white;
     border: none;
     padding: 10px 15px;
     margin: 5px;
     border-radius: 4px;
     cursor: pointer;
+    border: 1px solid #3d444d;
 }
 
-#focus-app button:hover {
-    background-color: #0056b3;
+.button-controls button:hover{
+    background-color: #151b23;
+}
+
+.edit-button {
+    background: none;
+    border: 0;
+    color: var(--primary-color);
+    cursor: pointer;
+    margin-top: -1vh;
 }
 
 #timer-next {
@@ -98,7 +119,15 @@ button#show-form {
     margin-top: 20px;
 }
 
+#timer-controls {
+    margin-top: 1vh;
+}
+
 #resume-button {
+    display: none;
+}
+
+#skip-button {
     display: none;
 }
 
@@ -125,4 +154,8 @@ footer {
     text-align: center;
     margin-top: 20px;
     color: #777;
+}
+
+#past-sessions-section {
+    display: none;
 }
