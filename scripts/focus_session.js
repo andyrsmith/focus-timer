@@ -58,6 +58,14 @@ export class FocusTimer {
         return this.sessions[this.focusSession];
     }
 
+    getNextSession() {
+        if(this.focusSession < this.sessions.length - 1) {
+            return this.sessions[this.focusSession + 1];
+        } else {
+            return null;
+        }
+    }
+
     formatTime(seconds) {
         const minutes = Math.floor(seconds / 60);
         const secs = seconds % 60;
@@ -87,6 +95,6 @@ export class FocusTimer {
 
 
 const defaultShortBreak = { text: "Break", duration: 5*60 };
-const defaultWorkSession = { text: "Working", duration: 1*60 };
+const defaultWorkSession = { text: "Focus", duration: 1*60 };
 
 

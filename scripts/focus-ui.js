@@ -11,6 +11,7 @@ export class FocusUI {
         this.session = session;
         this.app = app;
         this.updateText(this.domObj.timerDisplay, this.session.formatTime(this.session.getCurrentSession().duration));
+        this.updateText(this.domObj.nextSession, this.session.formatTime(this.session.getNextSession().duration));
         this.updateText(this.domObj.sessionHeader, this.session.getCurrentSession().text);
         this.updateText(this.domObj.cycleText, `Cycle ${this.session.getCycleNumber()} of ${this.session.getTotalCycles()}`);
     }
@@ -18,6 +19,7 @@ export class FocusUI {
     queryDomElements() {
         this.domObj = {};
         this.domObj.sessionHeader = document.getElementById("timer-text");
+        this.domObj.nextSession = document.getElementById("next-timer");
         this.domObj.cycleText = document.getElementById("cycle-count");
         this.domObj.timerDisplay = document.getElementById("timer");
         this.domObj.startButton = document.getElementById("start-button"); 
@@ -34,6 +36,11 @@ export class FocusUI {
         this.updateText(this.domObj.sessionHeader, this.session.getCurrentSession().text);
         this.updateText(this.domObj.cycleText, `Cycle ${this.session.getCycleNumber()} of ${this.session.getTotalCycles()}`);
         this.domObj.sessionHeader.textContent = this.session.getCurrentSession().text;
+        if(this.session.getNextSession()) {
+            this.updateText(this.domObj.nextSession, this.session.formatTime(this.session.getNextSession().duration));
+        } else {
+            this.updateText(this.domObj.nextSession, "Done");
+        }
         this.updateText(this.domObj.timerDisplay, this.session.formatTime(this.session.getCurrentSession().duration));
         this.domObj.startButton.style.display = "none";
         this.currentInterval = this.startInterval(this.session.getCurrentSession());
@@ -97,6 +104,7 @@ export class FocusUI {
             document.getElementById("timer-controls").style.display = "block";
             this.domObj.stopButton.style.display = "none";
             this.domObj.startButton.style.display = "inline";
+            this.domObj.resumeButton.style.display = "none";
         });
 
         this.domObj.showFormButton.addEventListener("click", () => {
@@ -130,6 +138,8 @@ export class FocusUI {
             document.getElementById("timer-next").style.display = "none";
             this.domObj.startButton.style.display = "inline";
             document.getElementById("resume-button").style.display = "none";
+            this.domObj.stopButton.style.display = "inline";
+            this.domObj.skipButton.style.display = "none";
             this.resumeTimer();
         });
 
